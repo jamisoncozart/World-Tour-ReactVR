@@ -3,16 +3,20 @@ import { View, Text, Pano, AppRegistry, asset, StyleSheet } from 'react-vr';
 
 const places = [
   {
-    title: 'Island Paradise'
+    title: 'Island Paradise',
+    fileName: 'island-garden.jpg'
   },
   {
-    title: 'Starry Night'
+    title: 'Starry Night',
+    fileName: 'starry-sky.jpg'
   },
   {
-    title: 'Winter Outdoors'
+    title: 'Winter Outdoors',
+    fileName: 'winter-outdoor.jpg'
   },
   {
-    title: 'Light Show'
+    title: 'Light Show',
+    fileName: 'light-show.jpg'
   }
 ]
 
@@ -21,18 +25,22 @@ class WorldTour extends Component {
     super();
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      place: 'starry-sky.jpg'
     }
   }
 
   toggleMenu() {
     this.setState({showMenu: !this.state.showMenu});
   }
+  changePano(fileName) {
+    this.setState({place: fileName});
+  }
 
   render() {
     return (
       <View>
-        <Pano source={asset('starry-sky.jpg')}></Pano>
+        <Pano source={asset(this.state.place)}></Pano>
         <View 
           style={styles.menuButton}
           onEnter={() => this.toggleMenu()}
@@ -47,7 +55,11 @@ class WorldTour extends Component {
               {
                 places.map((place, index) => {
                   return (
-                    <View style={styles.menuItem} key={index}>
+                    <View 
+                      style={styles.menuItem} 
+                      key={index}
+                      onEnter={() => this.changePano(place.fileName)}
+                      >
                       <Text style={styles.menuItemText}>{place.title}</Text>
                     </View>
                   )
